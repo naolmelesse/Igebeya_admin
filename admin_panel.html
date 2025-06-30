@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap">
+    <link rel="stylesheet" href="/admin_panel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+<div class="container" id="main_cont">
+    <section class="left-options">
+        <div id="user-management" class="user-management" data-info="Manage Users">
+            <i class="fas fa-users"></i> <span>Manage Users</span>
+        </div>
+        <div id="item-management" class="user-management" data-info="Manage Items">
+            <i class="fas fa-box"></i> <span>Manage Items</span>
+        </div>
+        <div id="message-management" class="user-management" data-info="Manage Messages">
+            <i class="fas fa-envelope"></i> <span>Manage Messages</span>
+        </div>
+        <div id="user-interaction" class="user-management" data-info="User Interaction">
+            <i class="fas fa-chart-line"></i> <span>User Interaction</span>
+        </div>
+        <div id="popular-items" class="user-management" data-info="Popular Items">
+            <i class="fas fa-star"></i> <span>Popular Items</span>
+        </div>
+        <div id="igebeya-analytics" class="user-management" data-info="I-Gebeya Analytics">
+            <i class="fas fa-chart-pie"></i> <span>I-Gebeya Analytics</span>
+        </div>
+        <div id="admin-actions" class="user-management" data-info="Admin Actions">
+            <i class="fas fa-cogs"></i> <span>Admin Actions</span>
+        </div>
+        <div id="security-verification" class="user-management" data-info="Security & Verification">
+            <i class="fas fa-shield-alt"></i> <span>Security & Verification</span>
+        </div>
+        <div id="system-setting" class="user-management" data-info="System Settings">
+            <i class="fas fa-wrench"></i> <span>System Settings</span>
+        </div>
+        <div id="advanced-setting" class="user-management" data-info="Advanced Settings">
+            <i class="fas fa-tools"></i> <span>Advanced Settings</span>
+        </div>
+    </section>
+
+
+    <section class="right-content">
+        <div id="users-section" class="users-section" style="display: none">
+            <!--                <div class="users-container">-->
+            <header class="header">
+                <div class="search-container">
+                    <div class="search-box">
+                        <label for="search-input">
+                            <input type="text" id="search-input" placeholder="User Chat ID...">
+                        </label>
+                        <i id="search-fas" class="fas fa-search"></i>
+                        <i id="spinner-fas" style="display: none" class="fas fa-spinner fa-spin colorful-spinner"></i>
+                    </div>
+                </div>
+
+                <div class="header-filter">
+                    <div class="filter-dropdown" id="open-modal-trigger">
+                        <i class="fas fa-filter"></i>
+                        <span>Filter</span>
+                    </div>
+                </div>
+
+                <div id="filter-modal" class="modal hidden">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Filters</h2>
+                            <span id="close-modal" class="close">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Filters will be dynamically added here -->
+                            <div id="filter-options"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <label id="filter-setting-save">
+                                <input type="checkbox" name="filter-setting-save" id="saveFilterSetting"> Save filter
+                                setting
+                                <input type="checkbox" name="filter-setting-save" id="saveCityFilter"> Always show items
+                                from selected city
+                            </label>
+                            <button id="apply-filters" class="apply-btn">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="loading-container-trending">
+                <div class="loading-placeholder-trending">
+                    <div class="image-placeholder-trending"></div>
+                    <div class="right-side-content">
+                        <div class="text-placeholder-trending large"></div>
+                        <div class="text-placeholder-trending medium"></div>
+                        <div class="text-placeholder-trending small"></div>
+                    </div>
+                </div>
+                <div class="loading-placeholder-trending">
+                    <div class="image-placeholder-trending"></div>
+                    <div class="right-side-content">
+                        <div class="text-placeholder-trending large"></div>
+                        <div class="text-placeholder-trending medium"></div>
+                        <div class="text-placeholder-trending small"></div>
+                    </div>
+                </div>
+                <div class="loading-placeholder-trending">
+                    <div class="image-placeholder-trending"></div>
+                    <div class="right-side-content">
+                        <div class="text-placeholder-trending large"></div>
+                        <div class="text-placeholder-trending medium"></div>
+                        <div class="text-placeholder-trending small"></div>
+                    </div>
+                </div>
+                <div class="loading-placeholder-trending">
+                    <div class="image-placeholder-trending"></div>
+                    <div class="right-side-content">
+                        <div class="text-placeholder-trending large"></div>
+                        <div class="text-placeholder-trending medium"></div>
+                        <div class="text-placeholder-trending small"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Dynamic rows will be inserted here via JavaScript -->
+            <div class="all-users"></div>
+            <!-- Delete Account Modal -->
+            <div id="inbox-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn">&times;</span>
+                    <p>Type your message here:</p>
+                    <label for="inbox-message">
+                        <textarea style="font-family: 'Open Sans', sans-serif; resize: vertical;" id="inbox-message"
+                                  placeholder="Enter your message..." required> </textarea>
+                    </label>
+                    <button id="confirm-send-btn">Send</button>
+                </div>
+            </div>
+            <!--                </div>-->
+
+        </div>
+        <section class="admin-action-container" id="admin-action-container" style="display: none">
+            <div class="admin-action-left" id="admin-action-left">
+                <div id="add-admin" class="add-admin" data-info="Add Admin">
+                    <span>Add Admin</span>
+                </div>
+                <div id="remove-admin" class="add-admin" data-info="Remove Admin">
+                    <span>Remove Admin</span>
+                </div>
+                <div id="change-admin-password" class="add-admin" data-info="Change Password">
+                    <span>Change Password</span>
+                </div>
+                <div id="recover-secret-key" class="add-admin" data-info="Recover Key">
+                    <span>Recover Key</span>
+                </div>
+            </div>
+
+            <div class="admin-action-right" id="admin-action-right">
+
+            </div>
+        </section>
+
+
+    </section>
+    <div id="menu" class="menu">
+        <i class="fas fa-bars"></i>
+    </div>
+
+</div>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="/admin_panel.js"></script>
+</body>
+</html>
