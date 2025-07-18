@@ -1,6 +1,0 @@
-# Proxy all /api/* requests to your Render backend
-/api/* https://igebeyamarch2025.onrender.com/api/:splat 200
-
-
-# Serve admin_login.html for all other requests
-/* /admin_login.html 200
