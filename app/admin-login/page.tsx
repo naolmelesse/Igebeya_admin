@@ -12,8 +12,8 @@ import {
 } from '@heroicons/react/24/outline';
 
 // Import our custom utilities and types
-import { useTelegram } from '@/utils/telegram';
-import { ApiClient } from '@/utils/api';
+import { useTelegram, TelegramUtils } from '@/utils/telegram';
+import { AdminAPI } from '@/utils/api';
 import { AuthUtils } from '@/utils/auth';
 import { ValidationUtils } from '@/utils/validation';
 import { useNotification } from '@/hooks/useNotification';
@@ -71,8 +71,10 @@ export default function AdminLogin() {
       return;
     }
 
-    if (!user?.id) {
-      showNotification('Telegram WebApp not initialized', 'error');
+    // Get user data (real or mock for development)
+    const userData = TelegramUtils.getUserData();
+    if (!userData?.id) {
+      showNotification('Unable to get user data. Please ensure you\'re accessing through Telegram or in development mode.', 'error');
       return;
     }
 
@@ -80,15 +82,15 @@ export default function AdminLogin() {
     setFormErrors([]);
 
     const requestData = {
-      chat_id: user.id,
       email: formData.email.trim().toLowerCase(),
+      chat_id: userData.id,
       username: formData.username.trim().toLowerCase(),
       password: formData.password.trim(),
       twofa: formData.twofa.trim()
     };
 
     try {
-      const response = await ApiClient.post('/admin_login', requestData);
+      const response = await AdminAPI.login(requestData);
 
       if (response.status !== 'success') {
         showNotification(response.message, 'error');
@@ -187,7 +189,7 @@ export default function AdminLogin() {
                 onChange={handleInputChange}
                 placeholder="Email"
                 required
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all duration-200 hover:border-gray-400 text-gray-900 bg-white placeholder-gray-500"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all duration-200 hover:border-gray-400"
               />
             </div>
 
@@ -204,7 +206,7 @@ export default function AdminLogin() {
                 placeholder="Username"
                 maxLength={10}
                 required
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all duration-200 hover:border-gray-400 text-gray-900 bg-white placeholder-gray-500"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all duration-200 hover:border-gray-400"
               />
             </div>
 
@@ -251,7 +253,7 @@ export default function AdminLogin() {
                 inputMode="numeric"
                 autoComplete="one-time-code"
                 required
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all duration-200 hover:border-gray-400 text-gray-900 bg-white placeholder-gray-500"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all duration-200 hover:border-gray-400"
               />
             </div>
 

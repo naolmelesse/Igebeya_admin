@@ -51,6 +51,51 @@ export interface User {
   expiry_date: string;
 }
 
+export interface Admin {
+  id: number;
+  username: string;
+  email: string;
+  chat_id: number;
+  role: string;
+  created_at: string;
+}
+
+export interface Item {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  seller_chat_id: number;
+  seller_username: string;
+  category: string;
+  images: string[];
+  status: 'active' | 'sold' | 'unlisted';
+  created_at: string;
+  updated_at: string;
+  views: number;
+  is_boosted: boolean;
+}
+
+export interface VerificationDetails {
+  chat_id: string;
+  identification_number: string;
+  full_name: string;
+  document_type: string;
+  document_images: string[];
+  status: 'pending' | 'approved' | 'rejected';
+  submitted_at: string;
+}
+
+export interface ReportMessage {
+  id: number;
+  item_id: number;
+  reporter_chat_id: number;
+  reporter_username: string;
+  reason: string;
+  description: string;
+  reported_at: string;
+}
+
 export interface LoginFormData {
   email: string;
   username: string;
@@ -58,7 +103,6 @@ export interface LoginFormData {
   twofa: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface ApiResponse<T = any> {
   status: 'success' | 'error';
   message: string;
@@ -74,16 +118,14 @@ export interface NotificationState {
 export interface AdminActionRequest {
   chat_id: number;
   type: string;
-  token: string;
   admin_chat_id: number;
 }
 
 export interface MessageData {
-  message: string;
+  message?: string;
   user_chatId: number;
   admin_chatId: number;
   sender_type: 'admin' | 'user';
-  token: string;
 }
 
 export interface NavigationItem {
@@ -95,4 +137,34 @@ export interface NavigationItem {
 export interface VerificationBadge {
   text: string;
   color: string;
+}
+
+// New types based on API documentation
+export interface AddAdminRequest {
+  new_admin_chat_id: string;
+  admin_chat_id: number;
+  role: string;
+  password: string;
+  email: string;
+  username: string;
+}
+
+export interface UserVerificationRequest {
+  chat_id: string;
+  admin_chat_id: number;
+  status: string;
+  identification_number: string;
+}
+
+export interface UnlistItemRequest {
+  itemId: string;
+  chat_id: number;
+  seller_chat_id: number;
+  reports?: string;
+}
+
+export interface AirdropRequest {
+  chat_id: number;
+  type: 'adminairdrop';
+  admin_chat_id: number;
 }

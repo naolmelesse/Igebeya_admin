@@ -77,12 +77,11 @@ export default function AdminDashboard() {
     { id: 'system', name: 'System Settings', icon: WrenchScrewdriverIcon },
   ];
 
-  // Fetch users from API
+  // Fetch users from API (Updated to match API documentation)
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/get_igebeya_users?start=0&limit=50');
-      const userData: User[] = await response.json();
+      const userData = await AdminAPI.getUsers(0, 50);
       setUsers(userData);
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -92,50 +91,40 @@ export default function AdminDashboard() {
     }
   };
 
-  // Handle sending message to user
+  // Handle sending message to user (Updated)
   const sendMessageToUser = async () => {
     if (!messageContent.trim() || !selectedUser || !user) return;
 
     try {
-      const response = await ApiClient.post('/webapp_data', {
+      const response = await AdminAPI.sendMessage({
         message: messageContent,
         user_chatId: selectedUser.chat_id,
         admin_chatId: user.id,
-        sender_type: 'admin',
-        token: token
+        sender_type: 'admin'
       });
 
-      if (response.status === 'success') {
-        showNotification('Message sent to user!', 'success');
-        setMessageModalOpen(false);
-        setMessageContent('');
-        setSelectedUser(null);
-      } else {
-        showNotification('Error sending message', 'error');
-      }
+      showNotification('Message sent to user!', 'success');
+      setMessageModalOpen(false);
+      setMessageContent('');
+      setSelectedUser(null);
     } catch (error) {
       console.error('Error sending message:', error);
       showNotification('Error sending message', 'error');
     }
   };
 
-  // Handle free boost airdrop
+  // Handle free boost airdrop (Updated)
   const handleFreeBoost = async (chatId: number) => {
-    if (!user || !token) return;
+    if (!user) return;
 
     try {
-      const response = await ApiClient.post('/claim_tasks', {
+      const response = await AdminAPI.airdropBoost({
         chat_id: chatId,
         type: 'adminairdrop',
-        token: token,
         admin_chat_id: user.id
       });
 
-      if (response.status === 'success') {
-        showNotification('+1 free boost was airdropped to the user', 'success');
-      } else {
-        showNotification(response.message, 'error');
-      }
+      showNotification('+1 free boost was airdropped to the user', 'success');
     } catch (error) {
       console.error('Error sending boost:', error);
       showNotification('Error sending boost', 'error');
@@ -256,6 +245,18 @@ export default function AdminDashboard() {
                     className="bg-green-500 hover:bg-green-600 text-white text-xs py-2 px-3 rounded transition-colors"
                   >
                     Free Boost
+                  </button>
+                  <button
+                    onClick={() => router.push(`/admin-dashboard/items?userChatId=${userItem.chat_id}&username=${userItem.username}`)}
+                    className="bg-purple-500 hover:bg-purple-600 text-white text-xs py-2 px-3 rounded transition-colors"
+                  >
+                    View Items
+                  </button>
+                  <button
+                    onClick={() => router.push(`/admin-dashboard/verification?userChatId=${userItem.chat_id}&username=${userItem.username}`)}
+                    className="bg-orange-500 hover:bg-orange-600 text-white text-xs py-2 px-3 rounded transition-colors"
+                  >
+                    Verification
                   </button>
                 </div>
               </div>
