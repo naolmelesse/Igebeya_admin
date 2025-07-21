@@ -44,7 +44,7 @@ export default function VerificationManagement() {
         chat_id: userChatId,
         admin_chat_id: user.id
       });
-      setVerificationDetails(details);
+      setVerificationDetails(details as VerificationDetails);
     } catch (error) {
       console.error('Error fetching verification details:', error);
       showNotification('Error fetching verification details', 'error');

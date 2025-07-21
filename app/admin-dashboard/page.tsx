@@ -20,6 +20,7 @@ import {
 import { useTelegram } from '@/utils/telegram';
 import { ApiClient } from '@/utils/api';
 import { AuthUtils } from '@/utils/auth';
+import { AdminAPI } from '@/utils/api';
 import { useNotification } from '@/hooks/useNotification';
 import { useAuth } from '@/hooks/useAuth';
 import { User } from '@/types';
@@ -82,7 +83,7 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       const userData = await AdminAPI.getUsers(0, 50);
-      setUsers(userData);
+      setUsers(userData as User[]);
     } catch (error) {
       console.error('Error fetching users:', error);
       showNotification('Error fetching users', 'error');

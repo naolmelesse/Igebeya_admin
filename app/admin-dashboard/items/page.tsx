@@ -44,7 +44,7 @@ export default function ItemManagement() {
         parseInt(userChatId), 
         currentPage * 20, 
         20
-      );
+      ) as Item[];
       
       if (currentPage === 0) {
         setItems(itemsData);
@@ -64,7 +64,7 @@ export default function ItemManagement() {
   const handleViewReports = async (item: Item) => {
     setSelectedItem(item);
     try {
-      const reportsData = await AdminAPI.getReportMessages(item.id, item.seller_chat_id);
+      const reportsData = await AdminAPI.getReportMessages(item.id, item.seller_chat_id) as ReportMessage[];
       setReports(reportsData);
       setShowReportsModal(true);
     } catch (error) {

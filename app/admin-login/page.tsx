@@ -19,6 +19,7 @@ import { ValidationUtils } from '@/utils/validation';
 import { useNotification } from '@/hooks/useNotification';
 import { useAuth } from '@/hooks/useAuth';
 import { LoginFormData } from '@/types';
+import { Http2ServerResponse } from 'http2';
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -90,7 +91,7 @@ export default function AdminLogin() {
     };
 
     try {
-      const response = await AdminAPI.login(requestData);
+      const response : any = await AdminAPI.login(requestData);
 
       if (response.status !== 'success') {
         showNotification(response.message, 'error');
