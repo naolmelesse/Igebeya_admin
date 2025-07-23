@@ -1,4 +1,3 @@
-// utils/api.ts
 import { ApiResponse, Item, User, ReportMessage, VerificationDetails } from '@/types';
 import { AuthUtils } from './auth';
 
@@ -75,12 +74,12 @@ export const AdminAPI = {
     password: string;
     twofa: string;
   }) => {
-    return ApiClient.post('/admin_login', credentials, false); // No auth required for login
+    return ApiClient.post('/admin_login', credentials, false);
   },
 
   // Admin Management
   getAdmins: async (chat_id: number) => {
-    return ApiClient.post('/get_admins', { chat_id });
+    return ApiClient.post('/get_admins', { chat_id }, true);
   },
 
   addAdmin: async (data: {
@@ -91,7 +90,7 @@ export const AdminAPI = {
     email: string;
     username: string;
   }) => {
-    return ApiClient.post('/add_admin', data);
+    return ApiClient.post('/add_admin', data, true);
   },
 
   // User Management
@@ -107,7 +106,7 @@ export const AdminAPI = {
     chat_id: string;
     admin_chat_id: number;
   }) => {
-    return ApiClient.post('/get_user_verification_details', data);
+    return ApiClient.post('/get_user_verification_details', data, true);
   },
 
   adminActionVerification: async (data: {
@@ -116,7 +115,7 @@ export const AdminAPI = {
     status: string;
     identification_number: string;
   }) => {
-    return ApiClient.post('/admin_action_verification', data);
+    return ApiClient.post('/admin_action_verification', data, true);
   },
 
   // Item Management
@@ -125,13 +124,13 @@ export const AdminAPI = {
       chat_id: chat_id.toString(),
       start: start.toString(), 
       limit: limit.toString() 
-    });
+    }, true);
   },
 
   getItemDetails: async (item_id: number) => {
     return ApiClient.get('/get_item_details', { 
       item_id: item_id.toString() 
-    });
+    }, true);
   },
 
   adminUnlistItem: async (data: {
@@ -140,7 +139,7 @@ export const AdminAPI = {
     seller_chat_id: number;
     reports?: string;
   }) => {
-    return ApiClient.post('/admin_unlist_item', data);
+    return ApiClient.post('/admin_unlist_item', data, true);
   },
 
   // Communication
@@ -150,7 +149,7 @@ export const AdminAPI = {
     admin_chatId: number;
     sender_type: 'admin';
   }) => {
-    return ApiClient.post('/webapp_data', messageData);
+    return ApiClient.post('/webapp_data', messageData, true);
   },
 
   // Task Management (Airdrops)
@@ -167,7 +166,7 @@ export const AdminAPI = {
     return ApiClient.get('/get_report_messages', { 
       item_id: item_id.toString(),
       chat_id: chat_id.toString()
-    });
+    }, true);
   },
 };
 
