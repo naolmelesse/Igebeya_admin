@@ -19,7 +19,6 @@ import { ValidationUtils } from '@/utils/validation';
 import { useNotification } from '@/hooks/useNotification';
 import { useAuth } from '@/hooks/useAuth';
 import { LoginFormData } from '@/types';
-import { Http2ServerResponse } from 'http2';
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -97,8 +96,9 @@ export default function AdminLogin() {
         showNotification(response.message, 'error');
       } else {
         showNotification(response.message, 'success');
-        if (response.token) {
-          AuthUtils.setToken(response.token);
+        console.log('Login successful:', response);
+        if (response.jwt_token) {
+          AuthUtils.setToken(response.jwt_token);
           // Small delay to show success message before redirect
           setTimeout(() => {
             router.push('/admin-dashboard');
