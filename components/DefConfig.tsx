@@ -9,7 +9,7 @@ interface DevConfigProps {
 
 export default function DevConfig({ isDevelopment }: DevConfigProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [mockUserId, setMockUserId] = useState('12345');
+  const [mockUserId, setMockUserId] = useState(process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID || '123456789');
 
   if (!isDevelopment) return null;
 

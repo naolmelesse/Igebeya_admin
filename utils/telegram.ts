@@ -9,11 +9,13 @@ declare global {
   }
 }
 
+const TELEGRAM_CHAT_ID = Number(process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID) || 123456789;
+
 // Mock Telegram WebApp for local development
 const createMockTelegramWebApp = (): TelegramWebApp => ({
   initDataUnsafe: {
     user: {
-      id: 12345, // Mock user ID for testing
+      id: TELEGRAM_CHAT_ID,
       first_name: 'Test',
       last_name: 'Admin',
       username: 'testadmin',
@@ -113,7 +115,7 @@ export const TelegramUtils = {
     } else if (TelegramUtils.isDevelopment()) {
       // Return mock user for development
       return {
-        id: 12345,
+        id: 5021900407,
         first_name: 'Test',
         last_name: 'Admin',
         username: 'testadmin',
